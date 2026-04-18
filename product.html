@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Spread — trulymade.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;700;800&family=DM+Mono:wght@300;400&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        .product-section { padding:4rem 3rem 8rem;background:linear-gradient(to bottom,var(--olive-deep),#1a2610);position:relative; }
+        .product-grid { display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;max-width:1200px;margin:0 auto; }
+        .product-visual { position:relative;display:flex;justify-content:center;align-items:center; }
+        .jar-container { position:relative;width:320px;height:380px;animation:jarFloat 4s ease-in-out infinite; }
+        @keyframes jarFloat { 0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)} }
+        .jar-glow { position:absolute;width:250px;height:250px;background:radial-gradient(circle,rgba(107,140,62,.4),transparent 70%);bottom:-30px;left:50%;transform:translateX(-50%);filter:blur(30px);border-radius:50%; }
+        .jar-svg { width:100%;height:100%; }
+        .product-info { padding-left:2rem; }
+        .product-title { font-family:'Roboto',sans-serif;font-size:clamp(2.5rem,5vw,4rem);line-height:1;font-weight:900;letter-spacing:-.02em;text-transform:lowercase;margin-bottom:1rem; }
+        .product-title strong { color:var(--olive-light); }
+        .product-desc { color:var(--cream-dark);line-height:1.8;font-size:.95rem;margin-bottom:2.5rem;max-width:440px; }
+        .ingredient-pills { display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.5rem; }
+        .pill { background:var(--glass);border:1px solid var(--glass-border);padding:.35rem .9rem;border-radius:100px;font-size:.72rem;letter-spacing:.08em;color:var(--olive-pale);backdrop-filter:blur(8px);transition:all .3s; }
+        .pill:hover { background:rgba(107,140,62,.2);border-color:var(--olive-light);transform:translateY(-2px); }
+        .badges-row { display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem; }
+        .badge-item { display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:var(--cream-dark);letter-spacing:.05em; }
+        .badge-icon { width:28px;height:28px;border-radius:50%;background:var(--glass);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;font-size:.8rem; }
+
+        /* SIZE SELECTOR */
+        .size-section { margin-bottom:2rem; }
+        .size-label { font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--olive-light);margin-bottom:1rem;display:block; }
+        .size-options { display:flex;gap:1rem; }
+        .size-card { flex:1;border:1px solid var(--glass-border);padding:1.2rem;cursor:pointer;transition:all .3s;position:relative;background:var(--glass);backdrop-filter:blur(8px);border-radius:12px; }
+        .size-card.active { border-color:var(--olive-light);background:rgba(107,140,62,.15); }
+        .size-card.unavailable { opacity:.4;cursor:not-allowed;pointer-events:none; }
+        .size-card input { display:none; }
+        .size-weight { font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--cream);display:block;line-height:1; }
+        .size-price { font-size:.85rem;color:var(--olive-light);font-weight:700;margin-top:.3rem;display:block; }
+        .size-tag { position:absolute;top:.5rem;right:.5rem;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;background:var(--amber);color:white;padding:.15rem .4rem;border-radius:3px; }
+        .size-tag.avail { background:var(--olive-bright); }
+        .qty-row { display:flex;align-items:center;gap:1rem;margin-bottom:2rem; }
+        .qty-label { font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--olive-light); }
+        .qty-ctrl { display:flex;align-items:center; }
+        .qty-btn { width:36px;height:36px;background:var(--glass);border:1px solid var(--glass-border);color:var(--cream);font-size:1.2rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center; }
+        .qty-btn:hover { background:rgba(107,140,62,.2);color:var(--olive-light); }
+        .qty-num { width:44px;height:36px;background:transparent;border-top:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border);border-left:none;border-right:none;color:var(--cream);font-family:'DM Mono',monospace;font-size:1rem;text-align:center; }
+        .order-total { display:flex;align-items:baseline;gap:.5rem;margin-bottom:2rem; }
+        .total-label { font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-dark); }
+        .total-amount { font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:600;color:var(--gold); }
+
+        /* NUTRITION */
+        .nutrition-section { padding:6rem 3rem;background:linear-gradient(135deg,#1a2610,#0f1a08); }
+        .nutrition-inner { max-width:1100px;margin:0 auto; }
+        .nutrition-header { text-align:center;margin-bottom:4rem; }
+        .nutrition-header h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300; }
+        .nutrition-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem; }
+        .nutrition-card { background:var(--glass);border:1px solid var(--glass-border);padding:2rem;text-align:center;backdrop-filter:blur(8px);border-radius:16px;transition:all .4s; }
+        .nutrition-card:hover { border-color:var(--olive-light);transform:translateY(-5px); }
+        .nutrition-val { font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:600;color:var(--gold); }
+        .nutrition-unit { font-size:.8rem;color:var(--olive-light);letter-spacing:.1em;text-transform:uppercase; }
+        .nutrition-name { font-size:.82rem;color:var(--cream-dark);margin-top:.5rem;letter-spacing:.05em; }
+
+        @keyframes confettiFall{0%{transform:translateY(-50px) rotate(0);opacity:1}100%{transform:translateY(300px) rotate(720deg);opacity:0}}
+        @media(max-width:768px){
+            .product-grid{grid-template-columns:1fr;gap:3rem;}
+            .product-info{padding-left:0;}
+            .jar-container{width:220px;height:270px;margin:0 auto;}
+            .product-section,.nutrition-section{padding:3rem 1.5rem;}
+        }
+    </style>
+</head>
+<body>
+    <section class="page-banner">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,#3a5220 0%,#1e2d12 45%,#0f1a08 100%)"></div>
+        <div class="hero-orb" style="width:400px;height:400px;background:rgba(107,140,62,.18);top:-80px;right:-80px;animation:orbFloat 8s ease-in-out infinite;position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;"></div>
+        <div class="page-banner-content">
+            <div class="page-badge">The Star Product</div>
+            <h1 class="page-title">Dryfruits <em>Punch</em><br><span class="accent">Spread</span></h1>
+            <p class="page-sub">Seven of nature's most potent ingredients, slow-blended into a velvety, indulgent spread.</p>
+        </div>
+    </section>
+
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <span class="marquee-item">No Added Sugar</span><span class="marquee-item">No Preservatives</span>
+            <span class="marquee-item">100% Lab Tested</span><span class="marquee-item">FSSAI Licensed</span>
+            <span class="marquee-item">7 Premium Ingredients</span><span class="marquee-item">Dryfruits Punch</span>
+            <span class="marquee-item">130g Jar</span><span class="marquee-item">Handcrafted Goodness</span>
+            <span class="marquee-item">No Added Sugar</span><span class="marquee-item">No Preservatives</span>
+            <span class="marquee-item">100% Lab Tested</span><span class="marquee-item">FSSAI Licensed</span>
+            <span class="marquee-item">7 Premium Ingredients</span><span class="marquee-item">Dryfruits Punch</span>
+            <span class="marquee-item">130g Jar</span><span class="marquee-item">Handcrafted Goodness</span>
+        </div>
+    </div>
+
+    <section class="product-section">
+        <div class="product-grid">
+            <div class="product-visual reveal">
+                <div class="jar-container">
+                    <div class="jar-glow"></div>
+                    <svg class="jar-svg" viewBox="0 0 320 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="85" y="18" width="150" height="12" rx="6" fill="#4a5e2f"/>
+                        <rect x="72" y="28" width="176" height="22" rx="8" fill="url(#lidGradP)"/>
+                        <path d="M72 50 Q62 55 60 90 L55 300 Q54 330 80 338 L240 338 Q266 330 265 300 L260 90 Q258 55 248 50 Z" fill="url(#jarGradP)"/>
+                        <rect x="72" y="140" width="176" height="150" rx="4" fill="url(#labelGradP)" opacity=".95"/>
+                        <rect x="76" y="144" width="168" height="142" rx="2" fill="none" stroke="rgba(168,196,110,0.4)" stroke-width="1"/>
+                        <text x="160" y="180" text-anchor="middle" font-family="Georgia,serif" font-size="11" font-style="italic" fill="#a8c46e" letter-spacing="2">truly</text>
+                        <text x="160" y="200" text-anchor="middle" font-family="Georgia,serif" font-size="18" font-weight="bold" fill="#f5f0e8" letter-spacing="1">MADE</text>
+                        <line x1="90" y1="208" x2="230" y2="208" stroke="rgba(168,196,110,0.3)" stroke-width=".8"/>
+                        <text x="160" y="224" text-anchor="middle" font-family="Georgia,serif" font-size="9" fill="#c9a84c" letter-spacing="3">DRYFRUITS PUNCH</text>
+                        <text x="107" y="252" text-anchor="middle" font-size="14">🌰</text>
+                        <text x="134" y="252" text-anchor="middle" font-size="14">🍯</text>
+                        <text x="160" y="252" text-anchor="middle" font-size="14">🌿</text>
+                        <text x="186" y="252" text-anchor="middle" font-size="14">🫐</text>
+                        <text x="213" y="252" text-anchor="middle" font-size="14">🌱</text>
+                        <text x="160" y="275" text-anchor="middle" font-family="Arial,sans-serif" font-size="8" fill="#a8c46e" letter-spacing="1">NO ADDED SUGAR</text>
+                        <text x="160" y="287" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="rgba(168,196,110,0.6)" letter-spacing="1">FSSAI LICENSED · LAB TESTED</text>
+                        <rect x="128" y="295" width="64" height="18" rx="9" fill="rgba(107,140,62,0.3)" stroke="rgba(168,196,110,0.4)" stroke-width=".8"/>
+                        <text x="160" y="308" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" fill="#a8c46e" font-weight="bold">130 g</text>
+                        <ellipse cx="100" cy="200" rx="8" ry="60" fill="rgba(255,255,255,0.06)"/>
+                        <ellipse cx="160" cy="338" rx="85" ry="12" fill="url(#bottomGradP)"/>
+                        <defs>
+                            <linearGradient id="jarGradP" x1="60" y1="0" x2="280" y2="0" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#2a3d1a"/><stop offset="30%" stop-color="#3d5826"/>
+                                <stop offset="70%" stop-color="#3d5826"/><stop offset="100%" stop-color="#1e2d12"/>
+                            </linearGradient>
+                            <linearGradient id="lidGradP" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stop-color="#3a5220"/><stop offset="50%" stop-color="#5a7a30"/><stop offset="100%" stop-color="#3a5220"/>
+                            </linearGradient>
+                            <linearGradient id="labelGradP" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#1a2a0e"/><stop offset="100%" stop-color="#0f1a08"/>
+                            </linearGradient>
+                            <linearGradient id="bottomGradP" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#2d3a1e"/><stop offset="100%" stop-color="#1a2610"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="product-info reveal" style="transition-delay:.15s">
+                <div class="section-label">The Star Product</div>
+                <h2 class="product-title">Dryfruits<br><strong>Punch Spread</strong></h2>
+                <p class="product-desc">Seven of nature's most potent ingredients — slow-blended into a velvety, indulgent spread. Perfect on toast, roti, or straight off the spoon. Guilt-free. Flavour-packed.</p>
+
+                <div class="ingredient-pills">
+                    <span class="pill">🌴 Dates</span><span class="pill">🍇 Raisins</span>
+                    <span class="pill">🌰 Almonds</span><span class="pill">🥜 Cashews</span>
+                    <span class="pill">🍈 Watermelon Seeds</span><span class="pill">🎃 Pumpkin Seeds</span>
+                    <span class="pill">🍯 Honey</span>
+                </div>
+
+                <div class="badges-row">
+                    <div class="badge-item"><div class="badge-icon">🚫</div>No Added Sugar</div>
+                    <div class="badge-item"><div class="badge-icon">🧪</div>Lab Tested</div>
+                    <div class="badge-item"><div class="badge-icon">✅</div>FSSAI Licensed</div>
+                    <div class="badge-item"><div class="badge-icon">🌿</div>No Preservatives</div>
+                </div>
+
+                <div class="size-section">
+                    <span class="size-label">Choose Size</span>
+                    <div class="size-options">
+                        <label class="size-card active" id="card130" onclick="selectSize(130,349,this)">
+                            <input type="radio" name="size" value="130" checked>
+                            <span class="size-weight">130<small style="font-size:1rem">g</small></span>
+                            <span class="size-price">₹349</span>
+                            <span class="size-tag avail">Available</span>
+                        </label>
+                        <label class="size-card unavailable" id="card250">
+                            <input type="radio" name="size" value="250" disabled>
+                            <span class="size-weight">250<small style="font-size:1rem">g</small></span>
+                            <span class="size-price">Coming Soon</span>
+                            <span class="size-tag">Sold Out</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="qty-row">
+                    <span class="qty-label">Quantity</span>
+                    <div class="qty-ctrl">
+                        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                        <input class="qty-num" type="number" id="qtyInput" value="1" min="1" max="20" readonly>
+                        <button class="qty-btn" onclick="changeQty(1)">+</button>
+                    </div>
+                </div>
+
+                <div class="order-total">
+                    <span class="total-label">Total</span>
+                    <span class="total-amount" id="totalAmount">₹349</span>
+                </div>
+
+                <a href="order.html" class="btn-primary" style="width:100%;display:block;text-align:center;" id="orderBtn">
+                    <span>🛒 Order Now — ₹349</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- NUTRITION -->
+    <section class="nutrition-section">
+        <div class="nutrition-inner">
+            <div class="nutrition-header reveal">
+                <div class="section-label" style="justify-content:center">Nutritional Highlights</div>
+                <h2>Packed with <em style="color:var(--olive-light)">Goodness</em></h2>
+                <p style="color:var(--cream-dark);margin-top:1rem">Per 100g serving (approximate values)</p>
+            </div>
+            <div class="nutrition-grid">
+                <div class="nutrition-card reveal">
+                    <div class="nutrition-val">320</div>
+                    <div class="nutrition-unit">kcal</div>
+                    <div class="nutrition-name">Energy</div>
+                </div>
+                <div class="nutrition-card reveal" style="transition-delay:.1s">
+                    <div class="nutrition-val">8g</div>
+                    <div class="nutrition-unit">protein</div>
+                    <div class="nutrition-name">Plant Protein</div>
+                </div>
+                <div class="nutrition-card reveal" style="transition-delay:.2s">
+                    <div class="nutrition-val">12g</div>
+                    <div class="nutrition-unit">fats</div>
+                    <div class="nutrition-name">Healthy Fats</div>
+                </div>
+                <div class="nutrition-card reveal" style="transition-delay:.3s">
+                    <div class="nutrition-val">0g</div>
+                    <div class="nutrition-unit">added</div>
+                    <div class="nutrition-name">Added Sugar</div>
+                </div>
+                <div class="nutrition-card reveal" style="transition-delay:.4s">
+                    <div class="nutrition-val">4g</div>
+                    <div class="nutrition-unit">fibre</div>
+                    <div class="nutrition-name">Dietary Fibre</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="shared.js"></script>
+    <script>
+        injectNav('product');
+
+        let selSize = 130, price = 349, qty = 1;
+
+        function selectSize(size, p, el) {
+            document.querySelectorAll('.size-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            selSize = size; price = p;
+            updateTotal();
+        }
+
+        function changeQty(d) {
+            qty = Math.max(1, Math.min(20, qty + d));
+            document.getElementById('qtyInput').value = qty;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            const total = price * qty;
+            document.getElementById('totalAmount').textContent = '₹' + total;
+            document.getElementById('orderBtn').querySelector('span').textContent = `🛒 Order Now — ₹${total}`;
+            // Pass params to order page via URL
+            document.getElementById('orderBtn').href = `order.html?size=${selSize}&qty=${qty}&price=${price}`;
+        }
+    </script>
+</body>
+</html>

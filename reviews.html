@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews — trulymade.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;700;800&family=DM+Mono:wght@300;400&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        .reviews-section { padding:4rem 3rem 8rem;background:var(--olive-deep);position:relative;overflow:hidden; }
+        .reviews-inner { max-width:1100px;margin:0 auto; }
+
+        /* MARQUEE REVIEWS */
+        .reviews-marquee { overflow:hidden;margin-bottom:5rem; }
+        .reviews-track { display:flex;gap:1.5rem;animation:marquee 25s linear infinite; }
+        .reviews-track:hover { animation-play-state:paused; }
+        .review-card { flex-shrink:0;width:300px;background:var(--glass);border:1px solid var(--glass-border);padding:1.8rem;backdrop-filter:blur(10px);border-radius:16px; }
+        .review-stars { color:var(--gold);font-size:.9rem;letter-spacing:.1em;margin-bottom:.8rem; }
+        .review-text { font-size:.88rem;color:var(--cream-dark);line-height:1.7;font-style:italic;margin-bottom:1.2rem; }
+        .review-author { font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--olive-light); }
+
+        /* GRID REVIEWS */
+        .reviews-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:5rem; }
+        .review-grid-card { background:var(--glass);border:1px solid var(--glass-border);padding:2rem;backdrop-filter:blur(10px);border-radius:20px;transition:all .4s; }
+        .review-grid-card:hover { border-color:var(--olive-light);transform:translateY(-5px); }
+        .review-grid-stars { color:var(--gold);font-size:1rem;margin-bottom:1rem; }
+        .review-grid-text { font-size:.9rem;color:var(--cream-dark);line-height:1.8;font-style:italic;margin-bottom:1.5rem; }
+        .review-grid-author { display:flex;align-items:center;gap:.8rem; }
+        .review-avatar { width:40px;height:40px;border-radius:50%;background:var(--glass);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;font-size:1.2rem; }
+        .review-author-info .name { font-size:.82rem;font-weight:700;color:var(--cream); }
+        .review-author-info .location { font-size:.72rem;color:var(--olive-light);letter-spacing:.08em; }
+
+        /* STATS */
+        .stats-row { display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:5rem;padding:3rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:24px;backdrop-filter:blur(12px); }
+        .stat-item { text-align:center; }
+        .stat-num { font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:600;color:var(--gold); }
+        .stat-label { font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--cream-dark);margin-top:.3rem; }
+
+        .cta-section { text-align:center;padding:3rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:24px;backdrop-filter:blur(12px); }
+        .cta-section h3 { font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;margin-bottom:1rem; }
+
+        @keyframes confettiFall{0%{transform:translateY(-50px) rotate(0);opacity:1}100%{transform:translateY(300px) rotate(720deg);opacity:0}}
+        @media(max-width:768px){
+            .stats-row{grid-template-columns:1fr;gap:1rem;}
+            .reviews-section{padding:3rem 1.5rem;}
+        }
+    </style>
+</head>
+<body>
+    <section class="page-banner">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 30% 40%,#3a5220 0%,#1e2d12 45%,#0f1a08 100%)"></div>
+        <div class="page-banner-content">
+            <div class="page-badge">Loved by Many</div>
+            <h1 class="page-title">What People <em>Are</em><br><span class="accent">Saying</span></h1>
+            <p class="page-sub">Real reviews from real customers who've made trulymade. a part of their daily ritual.</p>
+        </div>
+    </section>
+
+    <section class="reviews-section">
+        <div class="reviews-inner">
+            <!-- STATS -->
+            <div class="stats-row reveal">
+                <div class="stat-item">
+                    <div class="stat-num">4.9★</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">200+</div>
+                    <div class="stat-label">Happy Customers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">98%</div>
+                    <div class="stat-label">Would Recommend</div>
+                </div>
+            </div>
+
+            <!-- MARQUEE -->
+            <div class="reviews-marquee">
+                <div class="reviews-track">
+                    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Honestly the best thing I've put on my morning toast. My kids fight over it now — that says everything."</p><div class="review-author">Priya M. · Bengaluru</div></div>
+                    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"I was skeptical at first, but one taste and I was sold. Zero sugar and it still tastes incredible!"</p><div class="review-author">Rahul K. · Mumbai</div></div>
+                    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Finally a guilt-free spread I can give my diabetic mom. The flavour is rich and satisfying. Thank you TrulyMade!"</p><div class="review-author">Anjali S. · Hyderabad</div></div>
+                    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"The texture is divine — smooth with little bits of nuts. I finish a jar in 3 days flat. Worth every rupee."</p><div class="review-author">Karthik R. · Chennai</div></div>
+                    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Gifted this to my colleague and she called me to order 5 more jars. Speaks for itself!"</p><div class="review-author">Deepa V. · Pune</div></div>
+                    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Lab tested and FSSAI certified — that's what won me over first. The taste kept me coming back."</p><div class="review-author">Suresh T. · Delhi</div></div>
+                    <!-- Duplicates for loop -->
+                    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Honestly the best thing I've put on my morning toast. My kids fight over it now — that says everything."</p><div class="review-author">Priya M. · Bengaluru</div></div>
+                    <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"I was skeptical at first, but one taste and I was sold. Zero sugar and it still tastes incredible!"</p><div class="review-author">Rahul K. · Mumbai</div></div>
+                </div>
+            </div>
+
+            <!-- GRID -->
+            <div class="reviews-grid">
+                <div class="review-grid-card reveal">
+                    <div class="review-grid-stars">★★★★★</div>
+                    <p class="review-grid-text">"I've tried so many 'healthy' spreads and they always taste like cardboard. TrulyMade actually tastes luxurious. I mix it into my oats every morning and it's become my non-negotiable ritual."</p>
+                    <div class="review-grid-author"><div class="review-avatar">🙋‍♀️</div><div class="review-author-info"><div class="name">Meera Nair</div><div class="location">Kochi · Verified Buyer</div></div></div>
+                </div>
+                <div class="review-grid-card reveal" style="transition-delay:.1s">
+                    <div class="review-grid-stars">★★★★★</div>
+                    <p class="review-grid-text">"My trainer recommended a clean energy source for pre-workout and I tried this. One spoon before gym — sustained energy for 2 hours straight. No crash. No jitters. Just clean fuel."</p>
+                    <div class="review-grid-author"><div class="review-avatar">🧑‍💪</div><div class="review-author-info"><div class="name">Arjun Sharma</div><div class="location">Bengaluru · Verified Buyer</div></div></div>
+                </div>
+                <div class="review-grid-card reveal" style="transition-delay:.2s">
+                    <div class="review-grid-stars">★★★★★</div>
+                    <p class="review-grid-text">"Ordered two jars as a gift and ended up keeping one for myself. The packaging is beautiful and the spread is divine. My sister immediately placed her own order — we're both hooked."</p>
+                    <div class="review-grid-author"><div class="review-avatar">👩</div><div class="review-author-info"><div class="name">Kavitha Reddy</div><div class="location">Hyderabad · Verified Buyer</div></div></div>
+                </div>
+                <div class="review-grid-card reveal" style="transition-delay:.3s">
+                    <div class="review-grid-stars">★★★★★</div>
+                    <p class="review-grid-text">"As a nutritionist I'm always sceptical of health claims. But this product genuinely delivers. Clean ingredients, no nasties. I now recommend it to my clients who want a better alternative to commercial spreads."</p>
+                    <div class="review-grid-author"><div class="review-avatar">👨‍⚕️</div><div class="review-author-info"><div class="name">Dr. Venkat Iyer</div><div class="location">Chennai · Verified Buyer</div></div></div>
+                </div>
+                <div class="review-grid-card reveal" style="transition-delay:.1s">
+                    <div class="review-grid-stars">★★★★★</div>
+                    <p class="review-grid-text">"I'm diabetic and had given up on sweet spreads entirely. This changed everything. Natural sweetness, zero added sugar, and my blood sugar stayed stable. Truly a game changer for people like me."</p>
+                    <div class="review-grid-author"><div class="review-avatar">👴</div><div class="review-author-info"><div class="name">Ramesh Gupta</div><div class="location">Delhi · Verified Buyer</div></div></div>
+                </div>
+                <div class="review-grid-card reveal" style="transition-delay:.2s">
+                    <div class="review-grid-stars">★★★★★</div>
+                    <p class="review-grid-text">"My toddler refused any spread until I tried TrulyMade. Now he asks for 'the green jar spread' every single morning. As a parent knowing there's zero added sugar gives me so much peace of mind."</p>
+                    <div class="review-grid-author"><div class="review-avatar">👩‍👦</div><div class="review-author-info"><div class="name">Sneha Kulkarni</div><div class="location">Pune · Verified Buyer</div></div></div>
+                </div>
+            </div>
+
+            <div class="cta-section reveal">
+                <h3>Join the <em style="color:var(--olive-light)">trulymade.</em> family</h3>
+                <p style="color:var(--cream-dark);margin-bottom:2rem">Be among the happy customers. Try it risk-free today.</p>
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <a href="order.html" class="btn-primary"><span>🛒 Order Now — ₹349</span></a>
+                    <a href="product.html" class="btn-secondary">View Product</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="shared.js"></script>
+    <script>injectNav('reviews');</script>
+</body>
+</html>

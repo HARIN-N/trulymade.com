@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play & Win — trulymade.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;700;800&family=DM+Mono:wght@300;400&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        .play-section { padding:4rem 3rem 8rem;background:var(--olive-deep);text-align:center; }
+        .play-inner { max-width:800px;margin:0 auto; }
+
+        /* QUIZ */
+        .quiz-container { background:var(--glass);border:1px solid var(--glass-border);padding:3rem;backdrop-filter:blur(12px);border-radius:20px;position:relative;margin-bottom:5rem; }
+        .quiz-progress { display:flex;gap:.5rem;margin-bottom:2rem; }
+        .quiz-dot { flex:1;height:3px;background:rgba(168,196,110,.2);border-radius:2px;transition:background .3s; }
+        .quiz-dot.active { background:var(--olive-light); }
+        .quiz-dot.done { background:var(--gold); }
+        .quiz-q { font-family:'Cormorant Garamond',serif;font-size:1.6rem;margin-bottom:2rem;line-height:1.3;color:var(--cream); }
+        .quiz-options { display:grid;grid-template-columns:1fr 1fr;gap:1rem; }
+        .quiz-opt { background:rgba(0,0,0,.2);border:1px solid var(--glass-border);padding:1rem 1.5rem;cursor:pointer;font-family:'Syne',sans-serif;font-size:.85rem;color:var(--cream-dark);text-align:left;transition:all .3s;letter-spacing:.02em;border-radius:50px; }
+        .quiz-opt:hover { border-color:var(--olive-light);color:var(--olive-light);background:rgba(107,140,62,.1); }
+        .quiz-opt.correct { border-color:var(--olive-light);background:rgba(107,140,62,.2);color:var(--olive-light); }
+        .quiz-opt.wrong { border-color:#c45b5b;background:rgba(196,91,91,.1);color:#e08080; }
+        .quiz-result { display:none;text-align:center;padding:1rem; }
+        .quiz-result.show { display:block; }
+        .quiz-score { font-family:'Cormorant Garamond',serif;font-size:4rem;color:var(--gold);font-weight:600; }
+        .quiz-result-text { color:var(--cream-dark);margin:1rem 0 2rem;line-height:1.6; }
+
+        /* SPIN WHEEL */
+        .spin-section { max-width:700px;margin:0 auto;text-align:center; }
+        .spin-section h3 { font-family:'Cormorant Garamond',serif;font-size:2rem;margin-bottom:.5rem; }
+        .spin-section p { color:var(--cream-dark);margin-bottom:2rem;font-size:.9rem; }
+        .wheel-wrapper { position:relative;display:inline-block; }
+        .spin-canvas { display:block; }
+        .spin-pointer { position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:12px solid transparent;border-right:12px solid transparent;border-top:30px solid var(--gold);filter:drop-shadow(0 2px 8px rgba(201,168,76,.5)); }
+        .spin-result { margin-top:1.5rem;font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold);min-height:2rem; }
+
+        @keyframes confettiFall{0%{transform:translateY(-50px) rotate(0);opacity:1}100%{transform:translateY(300px) rotate(720deg);opacity:0}}
+        @media(max-width:768px){
+            .quiz-options{grid-template-columns:1fr;}
+            .play-section{padding:3rem 1.5rem;}
+        }
+    </style>
+</head>
+<body>
+    <section class="page-banner">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%,#3a5220 0%,#1e2d12 45%,#0f1a08 100%)"></div>
+        <div class="page-banner-content">
+            <div class="page-badge">Play & Learn</div>
+            <h1 class="page-title">Test Your <em>Nutrition</em><br><span class="accent">Knowledge</span></h1>
+            <p class="page-sub">Answer trivia, spin the wheel, and unlock surprise perks on your first order!</p>
+        </div>
+    </section>
+
+    <section class="play-section">
+        <div class="play-inner">
+            <div class="quiz-container reveal" id="quizBox">
+                <div class="quiz-progress" id="quizProgress"></div>
+                <div id="quizContent">
+                    <div class="quiz-q" id="quizQuestion"></div>
+                    <div class="quiz-options" id="quizOptions"></div>
+                </div>
+                <div class="quiz-result" id="quizResult">
+                    <div class="quiz-score" id="quizScore"></div>
+                    <p class="quiz-result-text" id="quizResultText"></p>
+                    <button class="btn-primary" onclick="restartQuiz()"><span>Play Again</span></button>
+                    <a href="order.html" class="btn-secondary" style="margin-left:1rem">Order Now</a>
+                </div>
+            </div>
+
+            <div class="spin-section reveal">
+                <h3>Spin for a Secret Perk 🎡</h3>
+                <p>One spin per visit. What will you unlock?</p>
+                <div class="wheel-wrapper">
+                    <div class="spin-pointer"></div>
+                    <canvas class="spin-canvas" id="spinCanvas" width="280" height="280"></canvas>
+                </div>
+                <div class="spin-result" id="spinResult"></div>
+                <button class="btn-primary" id="spinBtn" style="margin-top:1rem" onclick="spinWheel()"><span>🎯 Spin!</span></button>
+            </div>
+        </div>
+    </section>
+
+    <script src="shared.js"></script>
+    <script>
+        injectNav('play');
+
+        // QUIZ
+        const questions = [
+            { q:"Which dry fruit is highest in natural iron?", opts:["Almonds","Raisins","Cashews","Dates"], ans:1 },
+            { q:"What makes honey a healthier sweetener than refined sugar?", opts:["It has fewer calories","It contains antioxidants & enzymes","It is artificially sweet","It has zero carbs"], ans:1 },
+            { q:"Pumpkin seeds are a great source of which mineral?", opts:["Calcium","Vitamin C","Zinc & Magnesium","Sodium"], ans:2 },
+            { q:"What is the primary healthy fat in cashews?", opts:["Saturated fat","Trans fat","Monounsaturated fat","Polyunsaturated fat"], ans:2 },
+            { q:"Which ingredient in Dryfruits Punch Spread acts as a natural binder?", opts:["Almonds","Raisins","Raw Honey","Watermelon Seeds"], ans:2 }
+        ];
+        let current=0,score=0;
+
+        function initQuiz(){
+            current=0;score=0;
+            document.getElementById('quizContent').style.display='';
+            document.getElementById('quizResult').classList.remove('show');
+            const prog=document.getElementById('quizProgress');
+            prog.innerHTML='';
+            questions.forEach((_,i)=>{ const d=document.createElement('div');d.className='quiz-dot';d.id='dot'+i;prog.appendChild(d); });
+            showQuestion();
+        }
+
+        function showQuestion(){
+            const q=questions[current];
+            document.getElementById('dot'+current).classList.add('active');
+            document.getElementById('quizQuestion').textContent=q.q;
+            const opts=document.getElementById('quizOptions');
+            opts.innerHTML='';
+            q.opts.forEach((opt,i)=>{
+                const btn=document.createElement('button');
+                btn.className='quiz-opt'; btn.textContent=opt;
+                btn.onclick=()=>answerQ(i,btn);
+                opts.appendChild(btn);
+            });
+        }
+
+        function answerQ(i,btn){
+            const q=questions[current];
+            document.querySelectorAll('.quiz-opt').forEach(b=>b.disabled=true);
+            if(i===q.ans){btn.classList.add('correct');score++;}
+            else{btn.classList.add('wrong');document.querySelectorAll('.quiz-opt')[q.ans].classList.add('correct');}
+            document.getElementById('dot'+current).classList.remove('active');
+            document.getElementById('dot'+current).classList.add('done');
+            setTimeout(()=>{ current++;if(current<questions.length)showQuestion();else showResult(); },1200);
+        }
+
+        function showResult(){
+            document.getElementById('quizContent').style.display='none';
+            document.getElementById('quizResult').classList.add('show');
+            document.getElementById('quizScore').textContent=score+'/'+questions.length;
+            const texts=["Keep exploring — your nutrition journey starts now!","Good start! You know your nuts 🥜","Not bad! You're a health-curious soul 🌿","Impressive! You clearly eat well 🌟","Perfect score! You're a true wellness warrior 🏆"];
+            document.getElementById('quizResultText').textContent=texts[score]||texts[4];
+        }
+
+        function restartQuiz(){initQuiz();}
+        initQuiz();
+
+        // SPIN WHEEL
+        const spinSegments=[
+            {label:'Free Sticker!',color:'#4a5e2f'},{label:'5% Off',color:'#6b8c3e'},
+            {label:'Recipe Card',color:'#2d3a1e'},{label:'Priority Prep',color:'#3a5220'},
+            {label:'Mystery Gift',color:'#8ca84a'},{label:'10% Off',color:'#c9a84c'},
+            {label:'Free Sample',color:'#4a5e2f'},{label:'Thank You!',color:'#6b8c3e'}
+        ];
+        const canvas=document.getElementById('spinCanvas');
+        const ctx=canvas.getContext('2d');
+        const cw=canvas.width/2,ch=canvas.height/2,rad=cw-10;
+        let spinning=false,currentAngle=0,spinVel=0;
+
+        function drawWheel(angle){
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            const segAngle=(Math.PI*2)/spinSegments.length;
+            spinSegments.forEach((seg,i)=>{
+                const start=angle+i*segAngle,end=start+segAngle;
+                ctx.beginPath();ctx.moveTo(cw,ch);ctx.arc(cw,ch,rad,start,end);ctx.closePath();
+                ctx.fillStyle=seg.color;ctx.fill();
+                ctx.strokeStyle='rgba(168,196,110,0.3)';ctx.lineWidth=1.5;ctx.stroke();
+                ctx.save();ctx.translate(cw,ch);ctx.rotate(start+segAngle/2);
+                ctx.textAlign='right';ctx.fillStyle='#d4e4a8';ctx.font='bold 11px Syne,sans-serif';
+                ctx.fillText(seg.label,rad-12,4);ctx.restore();
+            });
+            ctx.beginPath();ctx.arc(cw,ch,28,0,Math.PI*2);ctx.fillStyle='#1a2610';ctx.fill();
+            ctx.strokeStyle='rgba(168,196,110,0.5)';ctx.lineWidth=2;ctx.stroke();
+            ctx.fillStyle='#a8c46e';ctx.font='bold 10px Syne';ctx.textAlign='center';ctx.fillText('SPIN',cw,ch+4);
+        }
+        drawWheel(0);
+
+        function spinWheel(){
+            if(spinning)return;
+            spinning=true;
+            document.getElementById('spinResult').textContent='';
+            document.getElementById('spinBtn').disabled=true;
+            spinVel=Math.random()*.2+.25;
+            animateSpin();
+        }
+
+        function animateSpin(){
+            if(spinVel>.001){
+                currentAngle+=spinVel;spinVel*=.98;drawWheel(currentAngle);requestAnimationFrame(animateSpin);
+            } else {
+                spinning=false;
+                const segAngle=(Math.PI*2)/spinSegments.length;
+                const norm=((currentAngle%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
+                const pointed=(Math.PI*2-norm+Math.PI*1.5)%(Math.PI*2);
+                const idx=Math.floor(pointed/segAngle)%spinSegments.length;
+                document.getElementById('spinResult').textContent='🎊 You won: '+spinSegments[idx].label+' — applied at checkout!';
+                document.getElementById('spinBtn').disabled=false;
+                document.getElementById('spinBtn').querySelector('span').textContent='🔄 Spin Again';
+            }
+        }
+    </script>
+</body>
+</html>

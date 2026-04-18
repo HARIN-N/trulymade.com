@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order — trulymade.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;700;800&family=DM+Mono:wght@300;400&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        .order-section { padding:4rem 3rem 8rem;background:linear-gradient(135deg,#1a2610,#0d1508,#1e2d12);position:relative;overflow:hidden; }
+        .order-section::before { content:'';position:absolute;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(107,140,62,.08),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%); }
+        .order-container { max-width:900px;margin:0 auto;position:relative;z-index:1; }
+        .order-grid { display:grid;grid-template-columns:1fr 1fr;gap:3rem; }
+
+        /* FORM */
+        .form-group { margin-bottom:1.5rem; }
+        .form-group label { display:block;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--olive-light);margin-bottom:.5rem; }
+        .form-group input,.form-group textarea,.form-group select { width:100%;background:var(--glass);border:1px solid var(--glass-border);color:var(--cream);padding:.8rem 1rem;font-family:'Syne',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s;backdrop-filter:blur(8px);border-radius:8px; }
+        .form-group input:focus,.form-group textarea:focus { border-color:var(--olive-light);box-shadow:0 0 0 3px rgba(168,196,110,.08); }
+        .form-group textarea { resize:vertical;min-height:80px; }
+        .form-group select option { background:var(--olive-deep); }
+
+        /* SUMMARY */
+        .order-summary-side { background:var(--glass);border:1px solid var(--glass-border);padding:2rem;backdrop-filter:blur(12px);border-radius:20px;position:sticky;top:100px; }
+        .summary-title { font-family:'Cormorant Garamond',serif;font-size:1.5rem;margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid var(--glass-border); }
+        .summary-item { display:flex;justify-content:space-between;align-items:center;padding:.8rem 0;border-bottom:1px solid rgba(168,196,110,.08);font-size:.85rem; }
+        .summary-item:last-of-type { border-bottom:none; }
+        .summary-item-name { color:var(--cream-dark); }
+        .summary-item-val { color:var(--cream);font-weight:600; }
+        .summary-total { margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:baseline; }
+        .summary-total-label { font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--olive-light); }
+        .summary-total-val { font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:var(--gold); }
+
+        /* PAYMENT */
+        .payment-methods { margin-top:2rem; }
+        .payment-label { font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--olive-light);margin-bottom:1rem;display:block; }
+        .payment-btns { display:flex;flex-direction:column;gap:.8rem; }
+        .pay-btn { width:100%;padding:1rem;border:1px solid var(--glass-border);background:transparent;color:var(--cream);font-family:'Syne',sans-serif;font-size:.82rem;letter-spacing:.08em;cursor:pointer;transition:all .3s;display:flex;align-items:center;gap:.8rem;border-radius:50px; }
+        .pay-btn:hover { border-color:var(--olive-light);background:rgba(107,140,62,.1); }
+        .pay-icon { font-size:1.2rem; }
+        .pay-btn.primary-pay { background:var(--olive-light);color:var(--olive-deep);border-color:var(--olive-light);font-weight:700;justify-content:center; }
+        .pay-btn.primary-pay:hover { background:var(--gold);border-color:var(--gold); }
+
+        /* SIZE SELECTOR (in form) */
+        .size-section { margin-bottom:1.5rem; }
+        .size-label { font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--olive-light);margin-bottom:.5rem;display:block; }
+        .size-options { display:flex;gap:1rem; }
+        .size-card { flex:1;border:1px solid var(--glass-border);padding:1rem;cursor:pointer;transition:all .3s;position:relative;background:var(--glass);backdrop-filter:blur(8px);border-radius:12px;text-align:center; }
+        .size-card.active { border-color:var(--olive-light);background:rgba(107,140,62,.15); }
+        .size-card.unavailable { opacity:.4;pointer-events:none; }
+        .size-card input { display:none; }
+        .size-weight { font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:var(--cream);display:block;line-height:1; }
+        .size-price { font-size:.82rem;color:var(--olive-light);font-weight:700;margin-top:.3rem;display:block; }
+        .size-tag { font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;background:var(--olive-bright);color:white;padding:.15rem .4rem;border-radius:3px;display:inline-block;margin-top:.3rem; }
+        .size-tag.sold { background:var(--amber); }
+        .qty-row { display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem; }
+        .qty-label { font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--olive-light); }
+        .qty-ctrl { display:flex;align-items:center; }
+        .qty-btn { width:36px;height:36px;background:var(--glass);border:1px solid var(--glass-border);color:var(--cream);font-size:1.2rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;border-radius:4px; }
+        .qty-btn:hover { background:rgba(107,140,62,.2);color:var(--olive-light); }
+        .qty-num { width:44px;height:36px;background:transparent;border-top:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border);border-left:none;border-right:none;color:var(--cream);font-family:'DM Mono',monospace;font-size:1rem;text-align:center; }
+
+        /* MODAL */
+        .modal-overlay { position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(10px);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s; }
+        .modal-overlay.show { opacity:1;pointer-events:all; }
+        .modal { background:var(--olive-deep);border:1px solid var(--olive-light);padding:3rem;max-width:480px;width:90%;text-align:center;border-radius:24px;transform:scale(.9);transition:transform .4s cubic-bezier(.23,1,.32,1);position:relative;overflow:hidden; }
+        .modal-overlay.show .modal { transform:scale(1); }
+        .modal-icon { font-size:4rem;margin-bottom:1rem;animation:pulse 1s ease infinite; }
+        @keyframes pulse { 0%,100%{transform:scale(1)}50%{transform:scale(1.1)} }
+        .modal-title { font-family:'Roboto',sans-serif;font-size:2rem;font-weight:900;color:var(--olive-light);margin-bottom:1rem;text-transform:lowercase;letter-spacing:-.02em; }
+        .modal-text { color:var(--cream-dark);line-height:1.7;margin-bottom:2rem;font-size:.9rem; }
+        .modal-close { background:var(--olive-light);color:var(--olive-deep);border:none;padding:.8rem 2.5rem;font-family:'Syne',sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .3s;border-radius:100px; }
+        .modal-close:hover { background:var(--gold); }
+        @keyframes confettiFall { 0%{transform:translateY(-50px) rotate(0);opacity:1}100%{transform:translateY(300px) rotate(720deg);opacity:0} }
+
+        @media(max-width:768px){
+            .order-grid{grid-template-columns:1fr;}
+            .order-summary-side{position:static;}
+            .order-section{padding:3rem 1.5rem;}
+        }
+    </style>
+</head>
+<body>
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal" id="modalBox">
+            <div class="modal-icon">🎉</div>
+            <div class="modal-title">order placed!</div>
+            <p class="modal-text" id="modalText"></p>
+            <button class="modal-close" onclick="closeModal()">Continue Shopping</button>
+        </div>
+    </div>
+
+    <section class="page-banner">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 40%,#3a5220 0%,#1e2d12 45%,#0f1a08 100%)"></div>
+        <div class="page-banner-content">
+            <div class="page-badge">Ready to Order?</div>
+            <h1 class="page-title">Secure <em>Your</em><br><span class="accent">Jar</span></h1>
+            <p class="page-sub">Fill in your details and choose how you'd like to pay. Free delivery included.</p>
+        </div>
+    </section>
+
+    <section class="order-section">
+        <div class="order-container">
+            <div class="order-grid reveal">
+                <!-- FORM SIDE -->
+                <div class="order-form-side">
+                    <div class="section-label">Your Details</div>
+
+                    <!-- SIZE PICK -->
+                    <div class="size-section">
+                        <span class="size-label">Choose Size</span>
+                        <div class="size-options">
+                            <label class="size-card active" id="card130" onclick="selectSize(130,349,this)">
+                                <input type="radio" name="size" value="130" checked>
+                                <span class="size-weight">130g</span>
+                                <span class="size-price">₹349</span>
+                                <span class="size-tag">Available</span>
+                            </label>
+                            <label class="size-card unavailable">
+                                <input type="radio" name="size" value="250" disabled>
+                                <span class="size-weight">250g</span>
+                                <span class="size-price">Coming Soon</span>
+                                <span class="size-tag sold">Sold Out</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- QTY -->
+                    <div class="qty-row">
+                        <span class="qty-label">Quantity</span>
+                        <div class="qty-ctrl">
+                            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                            <input class="qty-num" type="number" id="qtyInput" value="1" min="1" max="20" readonly>
+                            <button class="qty-btn" onclick="changeQty(1)">+</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="fname" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="fphone" placeholder="+91 XXXXX XXXXX" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="femail" placeholder="your@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Delivery Address *</label>
+                        <textarea id="faddress" placeholder="Full delivery address with pincode" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>City *</label>
+                        <input type="text" id="fcity" placeholder="City">
+                    </div>
+                    <div class="form-group">
+                        <label>Order Notes (optional)</label>
+                        <input type="text" id="fnotes" placeholder="Any special instructions...">
+                    </div>
+                </div>
+
+                <!-- SUMMARY SIDE -->
+                <div class="order-summary-side">
+                    <div class="summary-title">Order Summary</div>
+                    <div class="summary-item">
+                        <span class="summary-item-name">Product</span>
+                        <span class="summary-item-val">Dryfruits Punch Spread</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-name">Size</span>
+                        <span class="summary-item-val" id="sum-size">130g</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-name">Quantity</span>
+                        <span class="summary-item-val" id="sum-qty">1</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-name">Price per jar</span>
+                        <span class="summary-item-val" id="sum-price">₹349</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-item-name">Delivery</span>
+                        <span class="summary-item-val" style="color:var(--olive-light)">Free</span>
+                    </div>
+                    <div class="summary-total">
+                        <span class="summary-total-label">Total Payable</span>
+                        <span class="summary-total-val" id="sum-total">₹349</span>
+                    </div>
+
+                    <div class="payment-methods">
+                        <span class="payment-label">Choose Payment</span>
+                        <div class="payment-btns">
+                            <button class="pay-btn primary-pay" onclick="placeOrder('UPI')">
+                                <span class="pay-icon">📱</span> Pay via UPI (GPay / PhonePe)
+                            </button>
+                            <button class="pay-btn" onclick="placeOrder('Bank Transfer')">
+                                <span class="pay-icon">🏦</span> Bank Transfer / NEFT
+                            </button>
+                            <button class="pay-btn" onclick="placeOrder('COD')">
+                                <span class="pay-icon">💵</span> Cash on Delivery
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:1.5rem;padding:1rem;background:rgba(107,140,62,.08);border:1px solid var(--glass-border);font-size:.75rem;color:var(--cream-dark);line-height:1.6;border-radius:8px;">
+                        🔒 Your details are secure. Once you place the order, we'll confirm via WhatsApp within 2 hours.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="shared.js"></script>
+    <script>
+        injectNav('order');
+
+        let selSize=130, price=349, qty=1;
+
+        // Read URL params (from product page)
+        const params = new URLSearchParams(window.location.search);
+        if(params.get('size')) selSize = parseInt(params.get('size'));
+        if(params.get('qty')) { qty = parseInt(params.get('qty')); document.getElementById('qtyInput').value = qty; }
+        if(params.get('price')) price = parseInt(params.get('price'));
+        updateSummary();
+
+        function selectSize(size, p, el) {
+            document.querySelectorAll('.size-card').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            selSize = size; price = p;
+            updateSummary();
+        }
+
+        function changeQty(d) {
+            qty = Math.max(1, Math.min(20, qty + d));
+            document.getElementById('qtyInput').value = qty;
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const total = price * qty;
+            document.getElementById('sum-size').textContent = selSize + 'g';
+            document.getElementById('sum-qty').textContent = qty;
+            document.getElementById('sum-price').textContent = '₹' + price;
+            document.getElementById('sum-total').textContent = '₹' + total;
+        }
+
+        function placeOrder(method) {
+            const name = document.getElementById('fname').value.trim();
+            const phone = document.getElementById('fphone').value.trim();
+            const address = document.getElementById('faddress').value.trim();
+            const city = document.getElementById('fcity').value.trim();
+
+            if (!name || !phone || !address || !city) {
+                alert('Please fill in all required fields (Name, Phone, Address, City) before placing your order.');
+                return;
+            }
+
+            const total = price * qty;
+            const orderDetails = { name, phone, address, city, size: selSize+'g', qty, total, method, timestamp: new Date().toLocaleString('en-IN') };
+            sendOwnerNotification(orderDetails);
+
+            document.getElementById('modalText').textContent =
+                `Thank you, ${name}! 🌿 Your order of ${qty}× TrulyMade Dryfruits Punch (${selSize}g) worth ₹${total} via ${method} is received. We'll confirm on WhatsApp (${phone}) within 2 hours and prepare your fresh batch!`;
+
+            document.getElementById('successModal').classList.add('show');
+            launchConfetti(document.getElementById('modalBox'));
+
+            if (method === 'UPI') {
+                setTimeout(() => {
+                    const upiUrl = `upi://pay?pa=trulymade@upi&pn=TrulyMade&am=${total}&cu=INR&tn=TrulyMade Order-${name}`;
+                    window.location.href = upiUrl;
+                }, 1500);
+            }
+        }
+
+        function sendOwnerNotification(order) {
+            const msg = encodeURIComponent(
+                `🛍️ NEW ORDER — TrulyMade\n\n👤 Name: ${order.name}\n📞 Phone: ${order.phone}\n📦 Product: Dryfruits Punch (${order.size}) × ${order.qty}\n💰 Total: ₹${order.total}\n💳 Payment: ${order.method}\n📍 Address: ${order.address}, ${order.city}\n🕐 Time: ${order.timestamp}\n\n✅ Please prepare the next batch!`
+            );
+            console.log('Owner WA:', `https://wa.me/919999999999?text=${msg}`);
+            const orders = JSON.parse(localStorage.getItem('tm_orders') || '[]');
+            orders.push(order);
+            localStorage.setItem('tm_orders', JSON.stringify(orders));
+        }
+
+        function closeModal() { document.getElementById('successModal').classList.remove('show'); }
+    </script>
+</body>
+</html>

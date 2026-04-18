@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingredients — trulymade.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;700;800&family=DM+Mono:wght@300;400&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        .ing-section { padding:4rem 3rem 8rem;background:linear-gradient(135deg,#1a2610 0%,#0f1a08 50%,#1e2d12 100%);position:relative;overflow:hidden; }
+        .ing-inner { max-width:1100px;margin:0 auto; }
+
+        /* WHEEL */
+        .ingredients-wheel { position:relative;width:500px;height:500px;margin:0 auto 6rem; }
+        .wheel-center { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(107,140,62,.3),rgba(45,58,30,.8));border:1px solid var(--glass-border);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;backdrop-filter:blur(10px);z-index:10; }
+        .wheel-center-text { font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--olive-light);line-height:1.2; }
+        .wheel-ring { position:absolute;inset:0;animation:ringRotate 60s linear infinite;border-radius:50%;border:1px dashed rgba(168,196,110,.15); }
+        @keyframes ringRotate { to{transform:rotate(360deg)} }
+        .ingredient-node { position:absolute;width:80px;height:80px;border-radius:50%;background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all .4s cubic-bezier(.23,1,.32,1);transform:translate(-50%,-50%); }
+        .ingredient-node:hover { background:rgba(107,140,62,.25);border-color:var(--olive-light);transform:translate(-50%,-50%) scale(1.2);z-index:5; }
+        .ing-emoji { font-size:1.6rem; }
+        .ing-name { font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;color:var(--olive-pale);margin-top:.1rem; }
+
+        /* CARDS */
+        .ing-cards { display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem; }
+        .ing-card { padding:2rem;background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(8px);border-radius:16px;transition:all .4s; }
+        .ing-card:hover { border-color:var(--olive-light);transform:translateY(-5px); }
+        .ing-card-emoji { font-size:2.5rem;margin-bottom:1rem; }
+        .ing-card-name { font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;margin-bottom:.5rem; }
+        .ing-card-desc { font-size:.85rem;color:var(--cream-dark);line-height:1.7; }
+        .ing-card-benefit { margin-top:1rem;display:inline-block;background:rgba(107,140,62,.15);border:1px solid var(--glass-border);padding:.25rem .7rem;border-radius:100px;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--olive-light); }
+
+        .cta-section { text-align:center;margin-top:5rem;padding:3rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:24px;backdrop-filter:blur(12px); }
+        .cta-section h3 { font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;margin-bottom:1rem; }
+        .cta-section p { color:var(--cream-dark);margin-bottom:2rem; }
+
+        @keyframes confettiFall{0%{transform:translateY(-50px) rotate(0);opacity:1}100%{transform:translateY(300px) rotate(720deg);opacity:0}}
+        @media(max-width:768px){
+            .ingredients-wheel{width:320px;height:320px;}
+            .ingredient-node{width:60px;height:60px;}
+            .ing-emoji{font-size:1.2rem;}
+            .ing-section{padding:3rem 1.5rem;}
+        }
+    </style>
+</head>
+<body>
+    <section class="page-banner">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 40% 40%,#3a5220 0%,#1e2d12 45%,#0f1a08 100%)"></div>
+        <div class="page-banner-content">
+            <div class="page-badge">What's Inside</div>
+            <h1 class="page-title">Seven Ingredients.<br><em>One Perfect Blend.</em></h1>
+            <p class="page-sub">Every ingredient is hand-selected for quality, nutrition, and flavour. Hover to explore each one.</p>
+        </div>
+    </section>
+
+    <section class="ing-section">
+        <div class="ing-inner">
+            <div class="ingredients-wheel reveal" id="wheelViz">
+                <div class="wheel-ring"></div>
+                <div class="wheel-center">
+                    <div class="wheel-center-text">Dryfruits<br>Punch</div>
+                </div>
+            </div>
+
+            <div class="ing-cards">
+                <div class="ing-card reveal">
+                    <div class="ing-card-emoji">🌴</div>
+                    <div class="ing-card-name">Dates</div>
+                    <p class="ing-card-desc">Natural sweetness powerhouse. Rich in fibre, potassium and antioxidants — your energy's best friend. Dates form the base of our spread, giving it that irresistible caramel-like depth.</p>
+                    <span class="ing-card-benefit">⚡ Natural Energy</span>
+                </div>
+                <div class="ing-card reveal" style="transition-delay:.1s">
+                    <div class="ing-card-emoji">🍇</div>
+                    <div class="ing-card-name">Raisins</div>
+                    <p class="ing-card-desc">Tiny powerhouses of iron and natural sugars. They add a subtle fruity note and natural sweetness while supporting healthy blood iron levels.</p>
+                    <span class="ing-card-benefit">🩸 Iron Rich</span>
+                </div>
+                <div class="ing-card reveal" style="transition-delay:.2s">
+                    <div class="ing-card-emoji">🌰</div>
+                    <div class="ing-card-name">Almonds</div>
+                    <p class="ing-card-desc">Loaded with Vitamin E, healthy fats and protein. The crunch that keeps you going all day. Almonds also support brain health and cardiovascular wellness.</p>
+                    <span class="ing-card-benefit">🧠 Brain Health</span>
+                </div>
+                <div class="ing-card reveal" style="transition-delay:.3s">
+                    <div class="ing-card-emoji">🥜</div>
+                    <div class="ing-card-name">Cashews</div>
+                    <p class="ing-card-desc">Creamy texture contributor. Packed with magnesium and heart-healthy monounsaturated fats. Cashews lend the spread its signature velvety smoothness.</p>
+                    <span class="ing-card-benefit">❤️ Heart Healthy</span>
+                </div>
+                <div class="ing-card reveal" style="transition-delay:.1s">
+                    <div class="ing-card-emoji">🍈</div>
+                    <div class="ing-card-name">Watermelon Seeds</div>
+                    <p class="ing-card-desc">An underrated superfood. Rich in magnesium, zinc and amino acids. They add a subtle nutty flavour while supporting immune function and metabolism.</p>
+                    <span class="ing-card-benefit">🛡️ Immune Support</span>
+                </div>
+                <div class="ing-card reveal" style="transition-delay:.2s">
+                    <div class="ing-card-emoji">🎃</div>
+                    <div class="ing-card-name">Pumpkin Seeds</div>
+                    <p class="ing-card-desc">Nature's sleep aid. High in zinc, magnesium and tryptophan. These little gems support better sleep, prostate health and mood regulation.</p>
+                    <span class="ing-card-benefit">😴 Better Sleep</span>
+                </div>
+                <div class="ing-card reveal" style="transition-delay:.3s">
+                    <div class="ing-card-emoji">🍯</div>
+                    <div class="ing-card-name">Raw Honey</div>
+                    <p class="ing-card-desc">Nature's sweetener and binder. Anti-inflammatory, antimicrobial — golden goodness in every jar. Raw honey preserves its enzymes and natural healing properties.</p>
+                    <span class="ing-card-benefit">✨ Anti-Inflammatory</span>
+                </div>
+            </div>
+
+            <div class="cta-section reveal">
+                <h3>Ready to taste <em style="color:var(--olive-light)">all seven?</em></h3>
+                <p style="color:var(--cream-dark)">Get your jar of Dryfruits Punch Spread delivered fresh to your door.</p>
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <a href="order.html" class="btn-primary"><span>🛒 Order Now — ₹349</span></a>
+                    <a href="product.html" class="btn-secondary">View Product Details</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="shared.js"></script>
+    <script>
+        injectNav('ingredients');
+
+        // Build ingredient wheel
+        const ingredients = [
+            {emoji:'🌴',name:'Dates'},{emoji:'🍇',name:'Raisins'},{emoji:'🌰',name:'Almonds'},
+            {emoji:'🥜',name:'Cashews'},{emoji:'🍈',name:'W.Melon'},{emoji:'🎃',name:'Pumpkin'},
+            {emoji:'🍯',name:'Honey'}
+        ];
+        const wheel = document.getElementById('wheelViz');
+        const isSmall = wheel.offsetWidth < 400;
+        const r = isSmall ? 120 : 185;
+        ingredients.forEach((ing, i) => {
+            const angle = (i / ingredients.length) * Math.PI * 2 - Math.PI / 2;
+            const x = 50 + (r / (isSmall?160:250)) * 50 * Math.cos(angle);
+            const y = 50 + (r / (isSmall?160:250)) * 50 * Math.sin(angle);
+            const node = document.createElement('div');
+            node.className = 'ingredient-node';
+            node.style.left = x + '%';
+            node.style.top = y + '%';
+            node.innerHTML = `<span class="ing-emoji">${ing.emoji}</span><span class="ing-name">${ing.name}</span>`;
+            wheel.appendChild(node);
+        });
+    </script>
+</body>
+</html>

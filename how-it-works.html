@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works — trulymade.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syne:wght@400;500;700;800&family=DM+Mono:wght@300;400&family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        .how-section { padding:4rem 3rem 8rem;background:var(--olive-deep); }
+        .how-inner { max-width:1100px;margin:0 auto; }
+
+        /* STEPS */
+        .steps-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-bottom:6rem; }
+        .step-card { padding:2rem;position:relative;border-top:1px solid var(--glass-border);transition:all .4s; }
+        .step-card:hover { background:var(--glass);backdrop-filter:blur(8px);border-radius:16px;border-top-color:var(--olive-light);transform:translateY(-5px); }
+        .step-num { font-family:'DM Mono',monospace;font-size:.65rem;color:var(--olive-light);letter-spacing:.2em;margin-bottom:1.5rem; }
+        .step-icon { font-size:2.5rem;margin-bottom:1rem; }
+        .step-title { font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:.5rem; }
+        .step-desc { font-size:.82rem;color:var(--cream-dark);line-height:1.7; }
+        .step-connector { position:absolute;top:calc(2rem + 1px);right:-1rem;width:2rem;height:1px;background:var(--glass-border); }
+        .step-card:last-child .step-connector { display:none; }
+
+        /* PROMISE */
+        .promise-section { padding:5rem 0;border-top:1px solid var(--glass-border); }
+        .promise-header { text-align:center;margin-bottom:3rem; }
+        .promise-header h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300; }
+        .promise-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem; }
+        .promise-card { padding:2rem;background:var(--glass);border:1px solid var(--glass-border);backdrop-filter:blur(8px);border-radius:16px;text-align:center;transition:all .4s; }
+        .promise-card:hover { border-color:var(--olive-light);transform:translateY(-5px); }
+        .promise-icon { font-size:2rem;margin-bottom:1rem; }
+        .promise-title { font-family:'Cormorant Garamond',serif;font-size:1.2rem;margin-bottom:.5rem; }
+        .promise-desc { font-size:.82rem;color:var(--cream-dark);line-height:1.6; }
+
+        /* FAQ */
+        .faq-section { padding:5rem 0; }
+        .faq-header { text-align:center;margin-bottom:3rem; }
+        .faq-header h2 { font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300; }
+        .faq-list { max-width:700px;margin:0 auto; }
+        .faq-item { border-bottom:1px solid var(--glass-border);padding:1.5rem 0;cursor:pointer; }
+        .faq-q { display:flex;justify-content:space-between;align-items:center;font-size:.95rem;font-weight:600;letter-spacing:.03em; }
+        .faq-toggle { color:var(--olive-light);font-size:1.5rem;transition:transform .3s; }
+        .faq-item.open .faq-toggle { transform:rotate(45deg); }
+        .faq-a { max-height:0;overflow:hidden;transition:max-height .4s ease;color:var(--cream-dark);line-height:1.8;font-size:.88rem; }
+        .faq-item.open .faq-a { max-height:200px;padding-top:1rem; }
+
+        .cta-section { text-align:center;padding:4rem;background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(107,140,62,.1),transparent);border:1px solid var(--glass-border);border-radius:24px;backdrop-filter:blur(12px);margin-top:5rem; }
+        .cta-section h3 { font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;margin-bottom:1rem; }
+
+        @keyframes confettiFall{0%{transform:translateY(-50px) rotate(0);opacity:1}100%{transform:translateY(300px) rotate(720deg);opacity:0}}
+        @media(max-width:768px){
+            .steps-grid{grid-template-columns:1fr 1fr;gap:1rem;}
+            .step-connector{display:none;}
+            .how-section{padding:3rem 1.5rem;}
+        }
+    </style>
+</head>
+<body>
+    <section class="page-banner">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 50%,#3a5220 0%,#1e2d12 45%,#0f1a08 100%)"></div>
+        <div class="page-banner-content">
+            <div class="page-badge">Simple Process</div>
+            <h1 class="page-title">From Our <em>Kitchen</em><br><span class="accent">To Your Table</span></h1>
+            <p class="page-sub">Made-to-order freshness in four simple steps. No shortcuts. No compromises.</p>
+        </div>
+    </section>
+
+    <section class="how-section">
+        <div class="how-inner">
+            <div class="steps-grid">
+                <div class="step-card reveal">
+                    <div class="step-connector"></div>
+                    <div class="step-num">01</div>
+                    <div class="step-icon">🛒</div>
+                    <div class="step-title">Choose & Order</div>
+                    <div class="step-desc">Pick your jar size, fill in your delivery details and choose your preferred payment method securely.</div>
+                </div>
+                <div class="step-card reveal" style="transition-delay:.1s">
+                    <div class="step-connector"></div>
+                    <div class="step-num">02</div>
+                    <div class="step-icon">👨‍🍳</div>
+                    <div class="step-title">Fresh Batch Prep</div>
+                    <div class="step-desc">We receive your order and prepare a fresh batch just for you — made to order, never pre-packaged or stored.</div>
+                </div>
+                <div class="step-card reveal" style="transition-delay:.2s">
+                    <div class="step-connector"></div>
+                    <div class="step-num">03</div>
+                    <div class="step-icon">📦</div>
+                    <div class="step-title">Carefully Packed</div>
+                    <div class="step-desc">Sealed and packed with care in our hygienic facility. No shortcuts. Every jar gets our full attention.</div>
+                </div>
+                <div class="step-card reveal" style="transition-delay:.3s">
+                    <div class="step-num">04</div>
+                    <div class="step-icon">🚚</div>
+                    <div class="step-title">Delivered Fresh</div>
+                    <div class="step-desc">Your TrulyMade spread arrives fresh to your doorstep, ready to become your daily ritual.</div>
+                </div>
+            </div>
+
+            <!-- PROMISE -->
+            <div class="promise-section">
+                <div class="promise-header reveal">
+                    <div class="section-label" style="justify-content:center">Our Promise</div>
+                    <h2>What We <em style="color:var(--olive-light)">Guarantee</em></h2>
+                </div>
+                <div class="promise-grid">
+                    <div class="promise-card reveal">
+                        <div class="promise-icon">⚡</div>
+                        <div class="promise-title">Same-Day Prep</div>
+                        <p class="promise-desc">Every order is freshly prepared the same day it's received. No sitting in a warehouse.</p>
+                    </div>
+                    <div class="promise-card reveal" style="transition-delay:.1s">
+                        <div class="promise-icon">📱</div>
+                        <div class="promise-title">WhatsApp Updates</div>
+                        <p class="promise-desc">You'll receive order confirmation and delivery updates directly via WhatsApp within 2 hours.</p>
+                    </div>
+                    <div class="promise-card reveal" style="transition-delay:.2s">
+                        <div class="promise-icon">🔒</div>
+                        <div class="promise-title">Safe Packaging</div>
+                        <p class="promise-desc">Tamper-evident seals and secure glass jars ensure your spread arrives fresh and intact.</p>
+                    </div>
+                    <div class="promise-card reveal" style="transition-delay:.3s">
+                        <div class="promise-icon">💚</div>
+                        <div class="promise-title">100% Satisfaction</div>
+                        <p class="promise-desc">Not happy with your order? Reach out and we'll make it right — no questions asked.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ -->
+            <div class="faq-section">
+                <div class="faq-header reveal">
+                    <div class="section-label" style="justify-content:center">Got Questions?</div>
+                    <h2>Frequently <em style="color:var(--olive-light)">Asked</em></h2>
+                </div>
+                <div class="faq-list reveal">
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-q"><span>How long does delivery take?</span><span class="faq-toggle">+</span></div>
+                        <div class="faq-a">Delivery typically takes 2–5 business days depending on your location. We ship across India. You'll receive tracking updates via WhatsApp.</div>
+                    </div>
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-q"><span>What is the shelf life of the spread?</span><span class="faq-toggle">+</span></div>
+                        <div class="faq-a">The spread has a shelf life of 4–6 weeks at room temperature and up to 3 months when refrigerated. Always use a clean, dry spoon to maximise freshness.</div>
+                    </div>
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-q"><span>Is it safe for diabetics?</span><span class="faq-toggle">+</span></div>
+                        <div class="faq-a">Our spread contains zero added sugar and is sweetened only by dates and raw honey. Many of our diabetic customers enjoy it, but we always recommend consulting your doctor for personalised dietary advice.</div>
+                    </div>
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-q"><span>Can I pay cash on delivery?</span><span class="faq-toggle">+</span></div>
+                        <div class="faq-a">Yes! We offer Cash on Delivery (COD), UPI (GPay, PhonePe), and Bank Transfer / NEFT. Choose your preferred payment method at checkout.</div>
+                    </div>
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-q"><span>Do you offer bulk or corporate orders?</span><span class="faq-toggle">+</span></div>
+                        <div class="faq-a">Yes, we love bulk orders and gifting sets! Contact us via WhatsApp for corporate gifting, bulk pricing, and custom packaging options.</div>
+                    </div>
+                    <div class="faq-item" onclick="toggleFaq(this)">
+                        <div class="faq-q"><span>Is the product nut-allergy friendly?</span><span class="faq-toggle">+</span></div>
+                        <div class="faq-a">Our spread contains almonds and cashews, which are tree nuts. It is not suitable for anyone with nut allergies. Please read the ingredient list carefully before ordering.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-section reveal">
+                <h3>Ready to get <em style="color:var(--olive-light)">started?</em></h3>
+                <p style="color:var(--cream-dark);margin-bottom:2rem">Order your first jar today and experience the difference.</p>
+                <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                    <a href="order.html" class="btn-primary"><span>🛒 Order Now — ₹349</span></a>
+                    <a href="product.html" class="btn-secondary">View Product</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="shared.js"></script>
+    <script>
+        injectNav('how');
+        function toggleFaq(el){ el.classList.toggle('open'); }
+    </script>
+</body>
+</html>
